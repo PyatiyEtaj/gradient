@@ -1,0 +1,8 @@
+[package]
+name = "gradient"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = "0.4.40"
+zbus = "5.5.0"
