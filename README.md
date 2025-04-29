@@ -1,10 +1,17 @@
 # simple hyprpapper planner
-
-Config images:
-
+Config path: `$home/hypr/gradient.json`
+```json
+{
+    "plan":[
+        {
+            "time": "08:00",
+            "wallpapper": "/home/me/wallpappers/cards_white.png"
+        },
+        {
+            "time": "17:00",
+            "wallpapper": "/home/me/wallpappers/cards_orig.png"
+    	}
+    ]
+}
 ```
-after: "08:00", image:"/home/me/wallpappers/light_wall.png";
-after: "17:00", image:"/home/me/wallpappers/dark_wall.png";
-```
-
 Between 8-17 is light_wallpapper the rest of the time is dark_wallpapper
