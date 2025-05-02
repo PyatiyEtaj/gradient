@@ -84,7 +84,7 @@ impl ChangeWallpapper {
         None
     }
 
-    pub fn hyprpapper_set_wallpapper<S: AsRef<str>>(&self, wallpapper: S) {
+    pub fn hyprpapper_set_wallpapper<S: AsRef<str>>(&self, wallpapper: S) -> bool {
         let output = Command::new("sh")
             .arg("-c")
             .arg(format!(
@@ -95,10 +95,16 @@ impl ChangeWallpapper {
 
         match output {
             Ok(out) => {
-                println!("[INFO] {:?}", out)
+                if out.status.success() {
+                    println!("[INFO] {:?}", out);
+                    return true;
+                }
+                eprintln!("[ERROR] {:?}", out);
+                false
             }
             Err(err) => {
-                eprintln!("[ERROR] {:?}", err)
+                eprintln!("[ERROR] {:?}", err);
+                false
             }
         }
     }

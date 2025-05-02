@@ -45,12 +45,21 @@ async fn init_and_run_change_wallpapper_loop() {
         if let Some((tw, sleep_for_next)) = change_wallpapper.wallpapper(now) {
             println!("[INFO] current_wallpapper = {:?}", tw);
             sleep_ms = sleep_for_next;
-            change_wallpapper.hyprpapper_set_wallpapper(&tw.wallpapper);
+            loop {
+                let success = change_wallpapper.hyprpapper_set_wallpapper(&tw.wallpapper);
+                if success {
+                    break;
+                } else {
+                    println!("[WARN] last command failed wait for 1 sec and retry");
+                    tokio::time::sleep(Duration::from_millis(1_000)).await;
+                    sleep_ms -= 1_000;
+                }
+            }
         }
 
         println!(
             "[INFO] main loop sleep for {:?}",
-            NaiveTime::from_num_seconds_from_midnight_opt(sleep_ms / 1000, 0).unwrap()
+            NaiveTime::from_num_seconds_from_midnight_opt(sleep_ms / 1_000, 0).unwrap()
         );
 
         tokio::time::sleep(Duration::from_millis(sleep_ms as u64)).await;
@@ -59,8 +68,6 @@ async fn init_and_run_change_wallpapper_loop() {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> zbus::Result<()> {
-    tokio::time::sleep(Duration::from_secs(2)).await;
-
     let mut main_loop = tokio::spawn(async {
         init_and_run_change_wallpapper_loop().await;
     });
