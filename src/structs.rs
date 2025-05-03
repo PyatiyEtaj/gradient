@@ -51,8 +51,8 @@ impl ChangeWallpapper {
     pub fn new_at_time(config: &Config) -> Result<ChangeWallpapper, chrono::ParseError> {
         let mut wallpappers: Vec<TimeWallpapper> = vec![];
 
-        for cfg in &config.plan {
-            let tw = TimeWallpapper::new(&cfg.time, &cfg.wallpapper)?;
+        for cfg in config.plan() {
+            let tw = TimeWallpapper::new(cfg.time(), cfg.wallpapper())?;
             wallpappers.push(tw);
         }
 

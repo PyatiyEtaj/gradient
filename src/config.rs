@@ -10,13 +10,23 @@ pub enum ConfigError {
 
 #[derive(serde::Deserialize, Debug)]
 pub struct TimeWalpapperConfig {
-    pub time: String,
-    pub wallpapper: String,
+    time: String,
+    wallpapper: String,
+}
+
+impl TimeWalpapperConfig {
+    pub fn time(&self) -> &str{
+        self.time.as_str()
+    }
+
+    pub fn wallpapper(&self) -> &str{
+        self.wallpapper.as_str()
+    }
 }
 
 #[derive(serde::Deserialize, Debug)]
 pub struct Config {
-    pub plan: Vec<TimeWalpapperConfig>,
+    plan: Vec<TimeWalpapperConfig>,
 }
 
 impl Config {
@@ -46,6 +56,10 @@ impl Config {
         };
 
         Ok(cfg)
+    }
+
+    pub fn plan(&self) -> &[TimeWalpapperConfig]{
+        self.plan.as_slice()
     }
 }
 
