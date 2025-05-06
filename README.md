@@ -1,5 +1,5 @@
 # simple hyprpapper planner
-Config path: `$home/hypr/gradient.json`
+Config path: `$home/.config/hypr/gradient.json`
 ```json
 {
     "plan":[
