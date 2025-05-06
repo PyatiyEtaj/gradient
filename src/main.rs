@@ -77,7 +77,13 @@ async fn main() -> zbus::Result<()> {
     let unknown = MemberName::from_static_str("unknown")?;
 
     while let Some(signal) = stream.next().await {
-        let body: (bool,) = signal.body().deserialize()?;
+        let body: (bool,) = match signal.body().deserialize(){
+            Ok(b) => {b}
+            Err(err) => {
+                eprintln!("[ERROR] {:?}", err);
+                continue;
+            }
+        };
 
         println!(
             "[INFO] get signal name:'{:?}' body:{}",
